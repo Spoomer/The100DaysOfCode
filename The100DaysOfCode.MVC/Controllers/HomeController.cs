@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using The100DaysOfCode.MVC.Models;
 
 namespace The100DaysOfCode.MVC.Controllers;
 
