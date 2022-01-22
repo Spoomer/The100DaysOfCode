@@ -1,4 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<DayOfCodeContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("DayOfCodeContext")));
+}
+else
+{
+    builder.Services.AddDbContext<DayOfCodeContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionDayOfCodeContext")));
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=DayOfCode}/{action=Index}/{id?}");
 
 app.Run();

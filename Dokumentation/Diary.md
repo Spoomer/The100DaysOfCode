@@ -7,4 +7,6 @@
 - - - 
 
 ## Day 1:
-- initalize mvc project
+- [x] initalize mvc project
+- [x] create DayOfCode Model
+- [x] initalize Database Connection with EF Core + SQlite
