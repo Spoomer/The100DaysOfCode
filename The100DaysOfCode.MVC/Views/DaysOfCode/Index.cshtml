@@ -7,7 +7,7 @@
 <h1>Days Of Code</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateDay">Add Day</a>
 </p>
 <table class="table">
     <thead>
@@ -25,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model ?? new List<DayOfCode>()) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -37,9 +37,8 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Day" asp-route-id="@item.Id">Details</a> @*|
+                <a asp-action="DeleteDay" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }

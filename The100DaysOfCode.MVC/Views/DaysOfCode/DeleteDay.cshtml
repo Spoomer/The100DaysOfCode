@@ -1,13 +1,14 @@
 @model The100DaysOfCode.MVC.Models.DayOfCode
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete Day";
 }
 
-<h1>Details</h1>
+<h1>Delete Day</h1>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>DayOfCode</h4>
+    <h4>Day Of Code @Model?.Id</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -23,8 +24,10 @@
             @Html.DisplayFor(model => model.Date)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="DeleteDay">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete Day" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>
