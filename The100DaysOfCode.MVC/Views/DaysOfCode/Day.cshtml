@@ -28,11 +28,12 @@
         @foreach (var goal in Model?.Goals ?? new List<Goal>())
         {
             <li class="list-group-item">
-                <input class="form-check-input me-1" type="checkbox" value="@goal.Check" aria-label="goal_reached">
+                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check)
                 @goal.Name
             </li>
         }
     </ul>
+    <a class="btn btn-primary" asp-action="AddGoal" asp-route-id="@Model?.Id">Add Goal</a>
     <b>@Html.DisplayNameFor(model => model.Notes)</b>
     <ul class="list-group">
         @foreach (var note in Model?.Notes ?? new List<Note>())

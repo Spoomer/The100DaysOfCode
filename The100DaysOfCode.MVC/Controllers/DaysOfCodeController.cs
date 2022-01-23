@@ -152,6 +152,16 @@ namespace The100DaysOfCode.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddGoal(int id)
+        {
+            var dayOfCode = await _context.DayOfCode.FindAsync(id);
+            dayOfCode.Goals.Add(new Goal() {Name="neu"});
+            _context.Update(dayOfCode);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Day),id);
+        }
+
         private bool DayOfCodeExists(int id)
         {
             return _context.DayOfCode.Any(e => e.Id == id);
