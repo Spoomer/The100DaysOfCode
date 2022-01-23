@@ -10,5 +10,5 @@ public class DayOfCodeContext : DbContext
     {
     }
 
-    public DbSet<The100DaysOfCode.MVC.Models.DayOfCode> DayOfCode { get; set; }
+    public DbSet<DayOfCode> DayOfCode { get; set; }
 }
