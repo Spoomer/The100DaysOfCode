@@ -34,17 +34,21 @@
         }
     </ul>
     <a class="btn btn-primary" asp-action="AddGoal" asp-route-id="@Model?.Id">Add Goal</a>
-    <b>@Html.DisplayNameFor(model => model.Notes)</b>
-    <ul class="list-group">
-        @foreach (var note in Model?.Notes ?? new List<Note>())
-        {
-            <li class="list-group-item">
-                @note.Text
-            </li>
-        }
-    </ul>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.Notes)</b>
+        <ul class="list-group">
+            @foreach (var note in Model?.Notes ?? new List<Note>())
+            {
+                <li class="list-group-item">
+                    @note.Text
+                </li>
+            }
+        </ul>
+        <a class="btn btn-primary" asp-action="AddNote" asp-route-id="@Model?.Id">Add Note</a>
+    </p>
 </div>
 <div>
     <a asp-action="EditDay" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+

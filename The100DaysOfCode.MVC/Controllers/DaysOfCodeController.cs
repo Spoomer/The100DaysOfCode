@@ -24,7 +24,7 @@ namespace The100DaysOfCode.MVC.Controllers
         // GET: DaysOfCode
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DayOfCode.ToListAsync());
+            return View(await _context.DaysOfCode.ToListAsync());
         }
 
         // GET: DaysOfCode/Day/5
@@ -35,13 +35,14 @@ namespace The100DaysOfCode.MVC.Controllers
                 return NotFound();
             }
 
-            var dayOfCode = await _context.DayOfCode
+            var dayOfCode = await _context.DaysOfCode
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dayOfCode == null)
             {
                 return NotFound();
             }
-
+            await _context.Entry(dayOfCode).Collection(x=>x.Goals).LoadAsync();
+            await _context.Entry(dayOfCode).Collection(x=>x.Notes).LoadAsync();
             return View(dayOfCode);
         }
 
@@ -75,7 +76,7 @@ namespace The100DaysOfCode.MVC.Controllers
                 return NotFound();
             }
 
-            var dayOfCode = await _context.DayOfCode.FindAsync(id);
+            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
             if (dayOfCode == null)
             {
                 return NotFound();
@@ -126,7 +127,7 @@ namespace The100DaysOfCode.MVC.Controllers
                 return NotFound();
             }
 
-            var dayOfCode = await _context.DayOfCode
+            var dayOfCode = await _context.DaysOfCode
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (dayOfCode == null)
             {
@@ -141,10 +142,10 @@ namespace The100DaysOfCode.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dayOfCode = await _context.DayOfCode.FindAsync(id);
-            _context.DayOfCode.Remove(dayOfCode);
+            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
+            _context.DaysOfCode.Remove(dayOfCode);
             await _context.SaveChangesAsync();
-            var daysOfCode = await _context.DayOfCode.ToArrayAsync();
+            var daysOfCode = await _context.DaysOfCode.ToArrayAsync();
             if (daysOfCode.Length == 0)
             {
                 await ResetId();
@@ -155,16 +156,25 @@ namespace The100DaysOfCode.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> AddGoal(int id)
         {
-            var dayOfCode = await _context.DayOfCode.FindAsync(id);
+            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
             dayOfCode.Goals.Add(new Goal() {Name="neu"});
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Day),id);
+            return RedirectToAction(nameof(Day),new { id });
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddNote(int id)
+        {
+            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
+            dayOfCode.Notes.Add(new Note() {Text="texty"});
+            _context.Update(dayOfCode);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Day),new { id });
         }
 
         private bool DayOfCodeExists(int id)
         {
-            return _context.DayOfCode.Any(e => e.Id == id);
+            return _context.DaysOfCode.Any(e => e.Id == id);
         }
 
         private async Task ResetId()

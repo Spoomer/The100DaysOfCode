@@ -10,7 +10,7 @@ namespace The100DaysOfCode.MVC.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DayOfCode",
+                name: "DaysOfCode",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -20,11 +20,11 @@ namespace The100DaysOfCode.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayOfCode", x => x.Id);
+                    table.PrimaryKey("PK_DaysOfCode", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goal",
+                name: "Goals",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -35,17 +35,17 @@ namespace The100DaysOfCode.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Goal", x => x.Id);
+                    table.PrimaryKey("PK_Goals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Goal_DayOfCode_DayOfCodeId",
+                        name: "FK_Goals_DaysOfCode_DayOfCodeId",
                         column: x => x.DayOfCodeId,
-                        principalTable: "DayOfCode",
+                        principalTable: "DaysOfCode",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Note",
+                name: "Notes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -55,36 +55,36 @@ namespace The100DaysOfCode.MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Note", x => x.Id);
+                    table.PrimaryKey("PK_Notes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Note_DayOfCode_DayOfCodeId",
+                        name: "FK_Notes_DaysOfCode_DayOfCodeId",
                         column: x => x.DayOfCodeId,
-                        principalTable: "DayOfCode",
+                        principalTable: "DaysOfCode",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goal_DayOfCodeId",
-                table: "Goal",
+                name: "IX_Goals_DayOfCodeId",
+                table: "Goals",
                 column: "DayOfCodeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Note_DayOfCodeId",
-                table: "Note",
+                name: "IX_Notes_DayOfCodeId",
+                table: "Notes",
                 column: "DayOfCodeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Goal");
+                name: "Goals");
 
             migrationBuilder.DropTable(
-                name: "Note");
+                name: "Notes");
 
             migrationBuilder.DropTable(
-                name: "DayOfCode");
+                name: "DaysOfCode");
         }
     }
 }

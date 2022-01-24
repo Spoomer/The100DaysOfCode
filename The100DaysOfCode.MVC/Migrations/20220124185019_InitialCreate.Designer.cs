@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using The100DaysOfCode.MVC.Data;
 
 #nullable disable
 
 namespace The100DaysOfCode.MVC.Migrations
 {
     [DbContext(typeof(DayOfCodeContext))]
-    [Migration("20220122173022_InitialCreate")]
+    [Migration("20220124185019_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +34,7 @@ namespace The100DaysOfCode.MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DayOfCode");
+                    b.ToTable("DaysOfCode");
                 });
 
             modelBuilder.Entity("The100DaysOfCode.MVC.Models.Goal", b =>
@@ -56,7 +57,7 @@ namespace The100DaysOfCode.MVC.Migrations
 
                     b.HasIndex("DayOfCodeId");
 
-                    b.ToTable("Goal");
+                    b.ToTable("Goals");
                 });
 
             modelBuilder.Entity("The100DaysOfCode.MVC.Models.Note", b =>
@@ -76,25 +77,29 @@ namespace The100DaysOfCode.MVC.Migrations
 
                     b.HasIndex("DayOfCodeId");
 
-                    b.ToTable("Note");
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("The100DaysOfCode.MVC.Models.Goal", b =>
                 {
-                    b.HasOne("The100DaysOfCode.MVC.Models.DayOfCode", null)
+                    b.HasOne("The100DaysOfCode.MVC.Models.DayOfCode", "DayOfCode")
                         .WithMany("Goals")
                         .HasForeignKey("DayOfCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DayOfCode");
                 });
 
             modelBuilder.Entity("The100DaysOfCode.MVC.Models.Note", b =>
                 {
-                    b.HasOne("The100DaysOfCode.MVC.Models.DayOfCode", null)
+                    b.HasOne("The100DaysOfCode.MVC.Models.DayOfCode", "DayOfCode")
                         .WithMany("Notes")
                         .HasForeignKey("DayOfCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DayOfCode");
                 });
 
             modelBuilder.Entity("The100DaysOfCode.MVC.Models.DayOfCode", b =>
