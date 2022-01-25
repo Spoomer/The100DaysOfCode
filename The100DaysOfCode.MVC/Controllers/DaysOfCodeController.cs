@@ -41,8 +41,8 @@ namespace The100DaysOfCode.MVC.Controllers
             {
                 return NotFound();
             }
-            await _context.Entry(dayOfCode).Collection(x=>x.Goals).LoadAsync();
-            await _context.Entry(dayOfCode).Collection(x=>x.Notes).LoadAsync();
+            await _context.Entry(dayOfCode).Collection(x => x.Goals).LoadAsync();
+            await _context.Entry(dayOfCode).Collection(x => x.Notes).LoadAsync();
             return View(dayOfCode);
         }
 
@@ -157,19 +157,34 @@ namespace The100DaysOfCode.MVC.Controllers
         public async Task<IActionResult> AddGoal(int id)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Goals.Add(new Goal() {Name="neu"});
+            dayOfCode.Goals.Add(new Goal() { Name = "neu" });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Day),new { id });
+            return RedirectToAction(nameof(Day), new { id });
         }
         [HttpGet]
         public async Task<IActionResult> AddNote(int id)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Notes.Add(new Note() {Text="texty"});
+            dayOfCode.Notes.Add(new Note() { Text = "texty" });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Day),new { id });
+            return RedirectToAction(nameof(Day), new { id });
+        }
+        [HttpPut]
+        public async Task<IActionResult> CheckGoal([FromForm] int id, [FromForm] bool isChecked)
+        {
+            var goal = await _context.Goals.FindAsync(id);
+            if (goal is not null)
+            {
+                goal.Check = isChecked;
+                _context.Update(goal);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return NotFound();
+
+            
         }
 
         private bool DayOfCodeExists(int id)

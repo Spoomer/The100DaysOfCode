@@ -28,23 +28,24 @@
         @foreach (var goal in Model?.Goals ?? new List<Goal>())
         {
             <li class="list-group-item">
-                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check)
+                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id})
                 @goal.Name
             </li>
+            @* <div id="newGoalDiv"></div> *@
         }
     </ul>
     <a class="btn btn-primary" asp-action="AddGoal" asp-route-id="@Model?.Id">Add Goal</a>
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
-        <ul class="list-group">
+    <ul class="list-group">
             @foreach (var note in Model?.Notes ?? new List<Note>())
             {
-                <li class="list-group-item">
+            <li class="list-group-item">
                     @note.Text
-                </li>
+            </li>
             }
-        </ul>
-        <a class="btn btn-primary" asp-action="AddNote" asp-route-id="@Model?.Id">Add Note</a>
+    </ul>
+    <a class="btn btn-primary" asp-action="AddNote" asp-route-id="@Model?.Id">Add Note</a>
     </p>
 </div>
 <div>
@@ -52,3 +53,29 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+
+<script type="text/javascript">
+    document.querySelectorAll("input[goalId]")
+        .forEach(function (check) {
+            check.addEventListener('change', function (event) {
+                let formData = new FormData();
+                formData.append("id", check.getAttribute("goalid"));
+                formData.append("isChecked", check.checked);
+                console.log(formData)
+                fetch('/DaysOfCode/CheckGoal', { method: "PUT",
+
+                        body: formData })
+                .then(response => response.json())
+                .then(result => {
+                console.log('Success:', result);
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                });
+            });
+        });
+
+@*     document.getElementById("newGoalDiv").innerHTML="<li class='list-group-item' ><input id=/></li>" *@
+</script>
+}

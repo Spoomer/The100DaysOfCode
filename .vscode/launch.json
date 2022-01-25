@@ -8,6 +8,7 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
+            "browser":"edge",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/The100DaysOfCode.MVC/bin/Debug/net6.0/The100DaysOfCode.MVC.dll",
