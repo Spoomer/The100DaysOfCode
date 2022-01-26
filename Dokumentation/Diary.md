@@ -30,9 +30,15 @@
 ## Day 4:
 - "inline edit" in Day-View:
 - [x] mark goals (and update on serverside via ajax on click)
-- [ ] add goals & notes with input
-- [ ] edit goals & notes
+
 
 - duration: ~ 2 hours
 
 - learned: javascript fetching http (formdata) + work with it on controller site
+
+## Day 5:
+- [x] refactored js code to a function in site.js
+- [x] add goals & notes with input (via form)
+- [ ] edit goals & notes
+
+- duration: ~ 1,5 hours
