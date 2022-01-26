@@ -153,20 +153,20 @@ namespace The100DaysOfCode.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddGoal(int id)
+        [HttpPost]
+        public async Task<IActionResult> AddGoal(int id, string name)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Goals.Add(new Goal() { Name = "neu" });
+            dayOfCode.Goals.Add(new Goal() { Name = name });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });
         }
-        [HttpGet]
-        public async Task<IActionResult> AddNote(int id)
+        [HttpPost]
+        public async Task<IActionResult> AddNote(int id, string text)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Notes.Add(new Note() { Text = "texty" });
+            dayOfCode.Notes.Add(new Note() { Text = text });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });

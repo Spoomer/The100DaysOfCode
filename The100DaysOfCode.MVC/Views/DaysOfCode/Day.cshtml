@@ -31,10 +31,18 @@
                 @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id})
                 @goal.Name
             </li>
-            @* <div id="newGoalDiv"></div> *@
         }
+        <li class='list-group-item'>
+            @using (Html.BeginForm("AddGoal","DaysOfCode"))
+            {
+                <input hidden type="text" value=@Model?.Id name="id"/>
+                <input type="text" name="name" />
+                <input type="submit" value="Add Goal"/>
+            }
+
+        </li>
     </ul>
-    <a class="btn btn-primary" asp-action="AddGoal" asp-route-id="@Model?.Id">Add Goal</a>
+
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
     <ul class="list-group">
@@ -44,6 +52,15 @@
                     @note.Text
             </li>
             }
+             <li class='list-group-item'>
+            @using (Html.BeginForm("AddNote","DaysOfCode"))
+            {
+                <input hidden type="text" value=@Model?.Id name="id"/>
+                <input type="text" name="text" />
+                <input type="submit" value="Add Note"/>
+            }
+
+        </li>
     </ul>
     <a class="btn btn-primary" asp-action="AddNote" asp-route-id="@Model?.Id">Add Note</a>
     </p>
@@ -59,23 +76,11 @@
     document.querySelectorAll("input[goalId]")
         .forEach(function (check) {
             check.addEventListener('change', function (event) {
-                let formData = new FormData();
-                formData.append("id", check.getAttribute("goalid"));
-                formData.append("isChecked", check.checked);
-                console.log(formData)
-                fetch('/DaysOfCode/CheckGoal', { method: "PUT",
-
-                        body: formData })
-                .then(response => response.json())
-                .then(result => {
-                console.log('Success:', result);
-                })
-                .catch(error => {
-                console.error('Error:', error);
-                });
+                const dataObj = { id: check.getAttribute("goalid"), isChecked: check.checked }
+                fetchPutFormData('/DaysOfCode/CheckGoal', dataObj)
             });
         });
 
-@*     document.getElementById("newGoalDiv").innerHTML="<li class='list-group-item' ><input id=/></li>" *@
+    @*     document.getElementById("newGoalDiv").innerHTML="" *@
 </script>
 }
