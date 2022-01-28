@@ -32,17 +32,16 @@
                 @goal.Name
             </li>
         }
-        <li class='list-group-item'>
-            @using (Html.BeginForm("AddGoal","DaysOfCode"))
+        <li id="liAddGoal" class='list-group-item d-none'>
+            @using (Html.BeginForm("AddGoal", "DaysOfCode"))
             {
-                <input hidden type="text" value=@Model?.Id name="id"/>
+                <input class="d-none" type="text" value=@Model?.Id name="id" />
                 <input type="text" name="name" />
-                <input type="submit" value="Add Goal"/>
+                <input class="btn btn-primary" type="submit" value="Add Goal" />
             }
-
         </li>
     </ul>
-
+    <button class="btn btn-primary" id="btnAddGoal">Add Goal</button>
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
     <ul class="list-group">
@@ -52,17 +51,17 @@
                     @note.Text
             </li>
             }
-             <li class='list-group-item'>
-            @using (Html.BeginForm("AddNote","DaysOfCode"))
-            {
-                <input hidden type="text" value=@Model?.Id name="id"/>
+        <li id="liAddNote" class='list-group-item d-none'>
+                @using (Html.BeginForm("AddNote", "DaysOfCode"))
+                {
+                <input class="d-none" type="text" value=@Model?.Id name="id" />
                 <input type="text" name="text" />
-                <input type="submit" value="Add Note"/>
-            }
+                <input class="btn btn-primary" type="submit" value="Add Note" />
+                }
 
         </li>
     </ul>
-    <a class="btn btn-primary" asp-action="AddNote" asp-route-id="@Model?.Id">Add Note</a>
+    <button class="btn btn-primary" id="btnAddNote">Add Note</button>
     </p>
 </div>
 <div>
@@ -71,16 +70,5 @@
 </div>
 
 @section Scripts {
-
-<script type="text/javascript">
-    document.querySelectorAll("input[goalId]")
-        .forEach(function (check) {
-            check.addEventListener('change', function (event) {
-                const dataObj = { id: check.getAttribute("goalid"), isChecked: check.checked }
-                fetchPutFormData('/DaysOfCode/CheckGoal', dataObj)
-            });
-        });
-
-    @*     document.getElementById("newGoalDiv").innerHTML="" *@
-</script>
+<script src="~/js/DaysOfCode/Day.js"></script>
 }
