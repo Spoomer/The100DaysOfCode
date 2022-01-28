@@ -39,6 +39,17 @@
 ## Day 5:
 - [x] refactored js code to a function in site.js
 - [x] add goals & notes with input (via form)
-- [ ] edit goals & notes
+
 
 - duration: ~ 1,5 hours
+
+## Day 6:
+- [x] add goals & notes with hidden textfield
+- [x] css-improvements
+- [x] line-trough on marked goals
+- [x] refactored JS in separate file
+- [ ] longer or stretchy note text input
+- [ ] edit goals & notes
+- [ ] delete goals or notes
+
+- duration: ~ 1,5hours
