@@ -29,7 +29,15 @@
         {
             <li class="list-group-item">
                 @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id})
-                @goal.Name
+                @if(goal.Check == false)
+                {
+                    <span id=@("goal_"+goal.Id)>@goal.Name</span>
+                }
+                else
+                {
+                    <span class="text-decoration-line-through" id=@("goal_"+goal.Id)>@goal.Name</span>
+                }
+                
             </li>
         }
         <li id="liAddGoal" class='list-group-item d-none'>
