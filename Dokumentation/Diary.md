@@ -48,8 +48,10 @@
 - [x] css-improvements
 - [x] line-trough on marked goals
 - [x] refactored JS in separate file
-- [ ] longer or stretchy note text input
-- [ ] edit goals & notes
+- [x] longer or stretchy note text input
+- [x] edit notes
+- [ ] edit goals
 - [ ] delete goals or notes
+- [ ] XRSV token or axios lib
 
-- duration: ~ 1,5hours
+- duration: ~ 3 hours
