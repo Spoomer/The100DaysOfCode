@@ -27,8 +27,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container d-flex align-item-stretch" style="min-height: 40em;">
+        <main role="main" class="pb-3 p-5 mb-5 card shadow flex-fill">
             @RenderBody()
         </main>
     </div>
@@ -38,7 +38,7 @@
             &copy; 2022 - The 100 Days Of Code - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
