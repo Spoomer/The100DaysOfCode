@@ -7,12 +7,29 @@ function fetchPutFormData(url, dataObj) {
     for (const [key, value] of Object.entries(dataObj)) {
         formData.append(key, value);
     }
-    fetch(url, { method: "PUT", body: formData });
+    fetch(url, { method: "PUT", body: formData })
+        .then(response => {
+            if (!response.ok) {
+                alert("Error: " + response.status);
+            }
+        })
+        .catch(error => {
+            alert(error);
+        });
 }
+
 function fetchPostFormData(url, dataObj) {
     let formData = new FormData();
     for (const [key, value] of Object.entries(dataObj)) {
         formData.append(key, value);
     }
-    fetch(url, { method: "POST", body: formData });
+    fetch(url, { method: "POST", body: formData })
+        .then(response => {
+            if (!response.ok) {
+                alert("Error: " + response.status);
+            }
+        })
+        .catch(error => {
+            alert(error);
+        });
 }

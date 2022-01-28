@@ -184,9 +184,22 @@ namespace The100DaysOfCode.MVC.Controllers
             }
             return NotFound();
 
-            
-        }
 
+        }
+        // Put /DaysOfCode/UpdateNote
+        [HttpPut]
+        public async Task<IActionResult> UpdateNote([FromForm] int id, [FromForm] string text)
+        {
+            var note = await _context.Notes.FindAsync(id);
+            if (note is not null)
+            {
+                note.Text = text;
+                _context.Update(note);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return NotFound();
+        }
         private bool DayOfCodeExists(int id)
         {
             return _context.DaysOfCode.Any(e => e.Id == id);

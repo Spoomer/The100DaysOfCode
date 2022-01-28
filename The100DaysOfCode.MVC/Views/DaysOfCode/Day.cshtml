@@ -28,8 +28,8 @@
         @foreach (var goal in Model?.Goals ?? new List<Goal>())
         {
             <li class="list-group-item">
-                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id})
-                @if(goal.Check == false)
+                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id, @class="form-check-input me-1"})
+                @if (goal.Check == false)
                 {
                     <span id=@("goal_"+goal.Id)>@goal.Name</span>
                 }
@@ -37,7 +37,7 @@
                 {
                     <span class="text-decoration-line-through" id=@("goal_"+goal.Id)>@goal.Name</span>
                 }
-                
+
             </li>
         }
         <li id="liAddGoal" class='list-group-item d-none'>
@@ -52,24 +52,25 @@
     <button class="btn btn-primary" id="btnAddGoal">Add Goal</button>
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
-    <ul class="list-group">
+        <ul class="list-group">
             @foreach (var note in Model?.Notes ?? new List<Note>())
             {
-            <li class="list-group-item">
-                    @note.Text
-            </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <textarea class="form-control-plaintext" type="text" id=@("textareaNote_"+note.Id) readonly>@note.Text</textarea>
+                    <button class="btn bi bi-pencil align-self-start" btnNoteEditId=@note.Id></button>
+                    <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnNoteSave_"+note.Id)></button>
+                </li>
             }
-        <li id="liAddNote" class='list-group-item d-none'>
+            <li id="liAddNote" class='list-group-item d-none'>
                 @using (Html.BeginForm("AddNote", "DaysOfCode"))
                 {
-                <input class="d-none" type="text" value=@Model?.Id name="id" />
-                <input type="text" name="text" />
-                <input class="btn btn-primary" type="submit" value="Add Note" />
+                    <input class="d-none" type="text" value=@Model?.Id name="id" />
+                    <textarea class="form-control" rows="3" name="text" ></textarea>
+                    <input class="btn btn-primary" type="submit" value="Add Note" />
                 }
-
-        </li>
-    </ul>
-    <button class="btn btn-primary" id="btnAddNote">Add Note</button>
+            </li>
+        </ul>
+        <button class="btn btn-primary" id="btnAddNote">Add Note</button>
     </p>
 </div>
 <div>
