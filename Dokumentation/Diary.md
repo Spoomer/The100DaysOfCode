@@ -50,8 +50,17 @@
 - [x] refactored JS in separate file
 - [x] longer or stretchy note text input
 - [x] edit notes
-- [x] edit goals
-- [x] delete goals or notes
-- [ ] XRSV token or axios lib
+
 
 - duration: ~ 3 hours
+
+## Day 7:
+- [x] edit goals
+- [x] delete goals or notes
+- [x] XRSV token (axios lib as alternative)
+
+- duration: ~ 3 hours
+
+## Day 8:
+- [ ] create lib project and move data access
+- [ ] try dapper as alternative to EF Core

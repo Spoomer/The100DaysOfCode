@@ -10,7 +10,7 @@ function fetchPutFormData(url, dataObj) {
     fetch(url, { method: "PUT", body: formData })
         .then(response => {
             if (!response.ok) {
-                alert("Error: " + response.status);
+                alert("Error: " + response.status + " " + response.statusText);
             }
         })
         .catch(error => {
@@ -26,7 +26,7 @@ function fetchPostFormData(url, dataObj) {
     fetch(url, { method: "POST", body: formData })
         .then(response => {
             if (!response.ok) {
-                alert("Error: " + response.status);
+                alert("Error: " + response.status + " " + response.statusText);
             }
         })
         .catch(error => {

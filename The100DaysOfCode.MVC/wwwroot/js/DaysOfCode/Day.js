@@ -1,9 +1,10 @@
 //update marked Goal
+let xrsftoken = document.getElementsByName("__RequestVerificationToken")[0].value
 document.querySelectorAll("input[goalId]")
 .forEach(function (check) {
     check.addEventListener('change', function () {
         const goalId = check.getAttribute("goalid");
-        const dataObj = { id: goalId, isChecked: check.checked }
+        const dataObj = { id: goalId, isChecked: check.checked, __RequestVerificationToken: xrsftoken}
         fetchPutFormData('/DaysOfCode/CheckGoal', dataObj)
         if (check.checked)
         {
@@ -50,7 +51,7 @@ document.querySelectorAll("button[btnNoteEditId]")
 
 // save edited Note
 function saveNote(noteId, btnSaveNote,btnNoteEdit,textareaNote)  {
-    fetchPutFormData('/DaysOfCode/UpdateNote',{ id: noteId, text: textareaNote.value});
+    fetchPutFormData('/DaysOfCode/UpdateNote',{ id: noteId, text: textareaNote.value, __RequestVerificationToken: xrsftoken});
     btnSaveNote.classList.add("d-none");
     btnNoteEdit.classList.remove("d-none");
     textareaNote.setAttribute("readonly","");
@@ -75,7 +76,7 @@ document.querySelectorAll("button[btnGoalEditId]")
 
 // save edited Goal
 function saveGoal(goalId, btnSaveGoal,btnGoalEdit,inputGoal)  {
-    fetchPutFormData('/DaysOfCode/UpdateGoal',{ id: goalId, name: inputGoal.value});
+    fetchPutFormData('/DaysOfCode/UpdateGoal',{ id: goalId, name: inputGoal.value, __RequestVerificationToken: xrsftoken});
     btnSaveGoal.classList.add("d-none");
     btnGoalEdit.classList.remove("d-none");
     inputGoal.setAttribute("readonly","");

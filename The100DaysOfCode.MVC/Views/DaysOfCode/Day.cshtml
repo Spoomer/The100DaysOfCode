@@ -52,7 +52,10 @@
                     <button class="btn bi bi-pencil align-self-start" id="btnGoalEdit_@goal.Id" btnGoalEditId=@goal.Id></button>
                 }
                 <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnGoalSave_"+goal.Id)></button>
-                <a class="btn bi bi-trash" asp-action="DeleteGoal" asp-route-id="@goal.Id"></a>
+                <form asp-action="DeleteGoal">
+                    <input type="hidden" name="Id" value="@goal.Id" />
+                    <button type="submit" class="btn bi bi-trash" />
+                </form>
             </li>
         }
         <li id="liAddGoal" class='list-group-item d-none'>
@@ -75,7 +78,11 @@
                 readonly>@note.Text</textarea>
                 <button class="btn bi bi-pencil align-self-start" btnNoteEditId=@note.Id></button>
                 <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnNoteSave_"+note.Id)></button>
-                <a class="btn bi bi-trash" asp-action="DeleteNote" asp-route-id="@note.Id"></a>
+                <form asp-action="DeleteNote">
+                    <input type="hidden" name="Id" value="@note.Id" />
+                    <button type="submit" class="btn bi bi-trash" />
+                </form>
+                
             </li>
             }
         <li id="liAddNote" class='list-group-item d-none'>
@@ -94,7 +101,9 @@
     <a asp-action="EditDay" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-
+<form id="__AjaxAntiForgeryForm" action="#" method="put">
+    @Html.AntiForgeryToken()
+</form>
 @section Scripts {
 <script src="~/js/DaysOfCode/Day.js"></script>
 }

@@ -154,6 +154,7 @@ namespace The100DaysOfCode.MVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddGoal(int id, string name)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
@@ -163,6 +164,7 @@ namespace The100DaysOfCode.MVC.Controllers
             return RedirectToAction(nameof(Day), new { id });
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNote(int id, string text)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
@@ -172,6 +174,7 @@ namespace The100DaysOfCode.MVC.Controllers
             return RedirectToAction(nameof(Day), new { id });
         }
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckGoal([FromForm] int id, [FromForm] bool isChecked)
         {
             var goal = await _context.Goals.FindAsync(id);
@@ -188,6 +191,7 @@ namespace The100DaysOfCode.MVC.Controllers
         }
         // Put /DaysOfCode/UpdateNote
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateNote([FromForm] int id, [FromForm] string text)
         {
             var note = await _context.Notes.FindAsync(id);
@@ -202,6 +206,7 @@ namespace The100DaysOfCode.MVC.Controllers
         }
         // Put /DaysOfCode/UpdateNote
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateGoal([FromForm] int id, [FromForm] string name)
         {
             var goal = await _context.Goals.FindAsync(id);
@@ -214,8 +219,9 @@ namespace The100DaysOfCode.MVC.Controllers
             }
             return NotFound();
         }
-        // GET: DayOfCode/DeleteGoal/5
-        [HttpGet]
+        // Post: DayOfCode/DeleteGoal
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteGoal(int? id)
         {
             if (id == null)
@@ -233,8 +239,9 @@ namespace The100DaysOfCode.MVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new {id=goal.DayOfCodeId});
         }
-        // GET: DayOfCode/DeleteNote/5
-        [HttpGet]
+        // Post: DayOfCode/DeleteNote/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteNote(int? id)
         {
             if (id == null)
