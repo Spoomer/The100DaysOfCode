@@ -27,17 +27,32 @@
     <ul class="list-group">
         @foreach (var goal in Model?.Goals ?? new List<Goal>())
         {
-            <li class="list-group-item">
-                @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,new { goalid=goal.Id, @class="form-check-input me-1"})
-                @if (goal.Check == false)
+            <li class="list-group-item d-flex justify-content-between">
+                <div class="input-group">
+                    @Html.CheckBoxFor(model => model.Goals.Where(x=>x.Id == goal.Id).First().Check,
+                new { goalid=goal.Id, @class="form-check-input me-1 col-sm-1 align-self-center"})
+                <div class="col-sm-11 ps-2">
+                    @if (goal.Check == false)
+                    {
+                        <input type="text" class="form-control-plaintext" id=@("goal_"+goal.Id) value="@goal.Name" readonly />
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control-plaintext text-decoration-line-through align-self-center" id=@("goal_"+goal.Id) value="@goal.Name"/>
+                    }
+                    </div>
+                </div>
+                @if (goal.Check)
                 {
-                    <span id=@("goal_"+goal.Id)>@goal.Name</span>
+                    <button class="btn bi bi-pencil align-self-start d-none" id="btnGoalEdit_@goal.Id" btnGoalEditId=@goal.Id></button>
+                    
                 }
                 else
                 {
-                    <span class="text-decoration-line-through" id=@("goal_"+goal.Id)>@goal.Name</span>
+                    <button class="btn bi bi-pencil align-self-start" id="btnGoalEdit_@goal.Id" btnGoalEditId=@goal.Id></button>
                 }
-
+                <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnGoalSave_"+goal.Id)></button>
+                <a class="btn bi bi-trash" asp-action="DeleteGoal" asp-route-id="@goal.Id"></a>
             </li>
         }
         <li id="liAddGoal" class='list-group-item d-none'>
@@ -52,25 +67,27 @@
     <button class="btn btn-primary" id="btnAddGoal">Add Goal</button>
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
-        <ul class="list-group">
+    <ul class="list-group">
             @foreach (var note in Model?.Notes ?? new List<Note>())
             {
-                <li class="list-group-item d-flex justify-content-between">
-                    <textarea class="form-control-plaintext" type="text" id=@("textareaNote_"+note.Id) readonly>@note.Text</textarea>
-                    <button class="btn bi bi-pencil align-self-start" btnNoteEditId=@note.Id></button>
-                    <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnNoteSave_"+note.Id)></button>
-                </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <textarea class="form-control-plaintext" rows="@(note.Text.Where(x=>x == '\n').Count()+1)" type="text" id=@("textareaNote_"+note.Id)
+                readonly>@note.Text</textarea>
+                <button class="btn bi bi-pencil align-self-start" btnNoteEditId=@note.Id></button>
+                <button class="btn bi bi-journal-check align-self-end d-none" id=@("btnNoteSave_"+note.Id)></button>
+                <a class="btn bi bi-trash" asp-action="DeleteNote" asp-route-id="@note.Id"></a>
+            </li>
             }
-            <li id="liAddNote" class='list-group-item d-none'>
+        <li id="liAddNote" class='list-group-item d-none'>
                 @using (Html.BeginForm("AddNote", "DaysOfCode"))
                 {
-                    <input class="d-none" type="text" value=@Model?.Id name="id" />
-                    <textarea class="form-control" rows="3" name="text" ></textarea>
-                    <input class="btn btn-primary" type="submit" value="Add Note" />
+                <input class="d-none" type="text" value=@Model?.Id name="id" />
+                <textarea class="form-control" rows="3" name="text"></textarea>
+                <input class="btn btn-primary" type="submit" value="Add Note" />
                 }
-            </li>
-        </ul>
-        <button class="btn btn-primary" id="btnAddNote">Add Note</button>
+        </li>
+    </ul>
+    <button class="btn btn-primary" id="btnAddNote">Add Note</button>
     </p>
 </div>
 <div>

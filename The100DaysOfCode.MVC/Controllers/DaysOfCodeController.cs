@@ -200,6 +200,58 @@ namespace The100DaysOfCode.MVC.Controllers
             }
             return NotFound();
         }
+        // Put /DaysOfCode/UpdateNote
+        [HttpPut]
+        public async Task<IActionResult> UpdateGoal([FromForm] int id, [FromForm] string name)
+        {
+            var goal = await _context.Goals.FindAsync(id);
+            if (goal is not null)
+            {
+                goal.Name = name;
+                _context.Update(goal);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return NotFound();
+        }
+        // GET: DayOfCode/DeleteGoal/5
+        [HttpGet]
+        public async Task<IActionResult> DeleteGoal(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var goal = await _context.Goals
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (goal == null)
+            {
+                return NotFound();
+            }
+            _context.Goals.Remove(goal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Day), new {id=goal.DayOfCodeId});
+        }
+        // GET: DayOfCode/DeleteNote/5
+        [HttpGet]
+        public async Task<IActionResult> DeleteNote(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (note == null)
+            {
+                return NotFound();
+            }
+            _context.Notes.Remove(note);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Day), new {id=note.DayOfCodeId});
+        }
         private bool DayOfCodeExists(int id)
         {
             return _context.DaysOfCode.Any(e => e.Id == id);

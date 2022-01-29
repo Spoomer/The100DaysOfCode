@@ -1,3 +1,4 @@
+//update marked Goal
 document.querySelectorAll("input[goalId]")
 .forEach(function (check) {
     check.addEventListener('change', function () {
@@ -7,25 +8,31 @@ document.querySelectorAll("input[goalId]")
         if (check.checked)
         {
             document.getElementById("goal_"+goalId).classList.add("text-decoration-line-through");
+            document.getElementById("btnGoalEdit_"+goalId).classList.add("d-none");
         }
         else
         {
             document.getElementById("goal_"+goalId).classList.remove("text-decoration-line-through")
+            document.getElementById("btnGoalEdit_"+goalId).classList.remove("d-none");
         }
     });
 });
 
+// add Goal
 document.getElementById("btnAddGoal")
         .addEventListener('click',function () { 
             document.getElementById("liAddGoal").classList.remove("d-none");
             this.classList.add("d-none");
         });
+
+// add Note
 document.getElementById("btnAddNote")
         .addEventListener('click',function () { 
             document.getElementById("liAddNote").classList.remove("d-none");
             this.classList.add("d-none");
         });
 
+// edit Note
 document.querySelectorAll("button[btnNoteEditId]")
 .forEach(function(btnNoteEdit){
         btnNoteEdit.addEventListener('click', function() {
@@ -40,10 +47,37 @@ document.querySelectorAll("button[btnNoteEditId]")
                 });
         });
     })
+
+// save edited Note
 function saveNote(noteId, btnSaveNote,btnNoteEdit,textareaNote)  {
     fetchPutFormData('/DaysOfCode/UpdateNote',{ id: noteId, text: textareaNote.value});
     btnSaveNote.classList.add("d-none");
     btnNoteEdit.classList.remove("d-none");
     textareaNote.setAttribute("readonly","");
     btnSaveNote.removeEventListener('click',this);
-}             
+}
+
+// edit Goal
+document.querySelectorAll("button[btnGoalEditId]")
+.forEach(function(btnGoalEdit){
+        btnGoalEdit.addEventListener('click', function() {
+            const goalId = btnGoalEdit.getAttribute("btnGoalEditId");
+            const inputGoal =document.getElementById("goal_"+goalId);
+            inputGoal.removeAttribute("readonly");
+            btnGoalEdit.classList.add("d-none");
+            const btnSaveGoal = document.getElementById("btnGoalSave_"+goalId);
+            btnSaveGoal.classList.remove("d-none");
+            btnSaveGoal.addEventListener('click',function(){
+                    saveGoal(goalId,btnSaveGoal,btnGoalEdit,inputGoal);
+                });
+        });
+    })
+
+// save edited Goal
+function saveGoal(goalId, btnSaveGoal,btnGoalEdit,inputGoal)  {
+    fetchPutFormData('/DaysOfCode/UpdateGoal',{ id: goalId, name: inputGoal.value});
+    btnSaveGoal.classList.add("d-none");
+    btnGoalEdit.classList.remove("d-none");
+    inputGoal.setAttribute("readonly","");
+    btnSaveGoal.removeEventListener('click',this);
+}                
