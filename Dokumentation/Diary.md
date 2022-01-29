@@ -50,8 +50,8 @@
 - [x] refactored JS in separate file
 - [x] longer or stretchy note text input
 - [x] edit notes
-- [ ] edit goals
-- [ ] delete goals or notes
+- [x] edit goals
+- [x] delete goals or notes
 - [ ] XRSV token or axios lib
 
 - duration: ~ 3 hours
