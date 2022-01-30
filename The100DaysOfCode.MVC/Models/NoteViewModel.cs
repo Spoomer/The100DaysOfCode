@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace The100DaysOfCode.MVC.Models
 {
-    public class Note
+    public class NoteViewModel
     {
         public int Id { get; set; }
         public string Text { get; set; } = "";
         public int DayOfCodeId { get; set; }
-        public DayOfCode? DayOfCode { get; set; }
+        public DayOfCodeViewModel? DayOfCode { get; set; }
     }
 }

@@ -1,3 +1,3 @@
 # Ideas
-- codepage converter
+- codepage converter as CLI or GUI
 - 

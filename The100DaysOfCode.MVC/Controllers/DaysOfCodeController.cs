@@ -57,7 +57,7 @@ namespace The100DaysOfCode.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDay([Bind("Id,Title,Date")] DayOfCode dayOfCode)
+        public async Task<IActionResult> CreateDay([Bind("Id,Title,Date")] DayOfCodeViewModel dayOfCode)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace The100DaysOfCode.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditDay(int id, [Bind("Id,Title,Date")] DayOfCode dayOfCode)
+        public async Task<IActionResult> EditDay(int id, [Bind("Id,Title,Date")] DayOfCodeViewModel dayOfCode)
         {
             if (id != dayOfCode.Id)
             {
@@ -158,7 +158,7 @@ namespace The100DaysOfCode.MVC.Controllers
         public async Task<IActionResult> AddGoal(int id, string name)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Goals.Add(new Goal() { Name = name });
+            dayOfCode.Goals.Add(new GoalViewModel() { Name = name });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });
@@ -168,7 +168,7 @@ namespace The100DaysOfCode.MVC.Controllers
         public async Task<IActionResult> AddNote(int id, string text)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Notes.Add(new Note() { Text = text });
+            dayOfCode.Notes.Add(new NoteViewModel() { Text = text });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });
