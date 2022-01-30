@@ -14,17 +14,18 @@ namespace The100DaysOfCode.MVC.Controllers
     {
         private readonly DayOfCodeContext _context;
         private readonly IConfiguration _config;
+        private readonly DayOfCodeService _dayOfCodeService;
 
-        public DaysOfCodeController(DayOfCodeContext context, IConfiguration config)
+        public DaysOfCodeController(DayOfCodeService dayOfCodeService, IConfiguration config)
         {
-            _context = context;
+            _dayOfCodeService = dayOfCodeService;
             _config = config;
         }
 
         // GET: DaysOfCode
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DaysOfCode.ToListAsync());
+            return View(await _dayOfCodeService.GetDayOfCodeViewModelsAsync());
         }
 
         // GET: DaysOfCode/Day/5
@@ -158,7 +159,7 @@ namespace The100DaysOfCode.MVC.Controllers
         public async Task<IActionResult> AddGoal(int id, string name)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Goals.Add(new GoalViewModel() { Name = name });
+            //dayOfCode.Goals.Add(new GoalViewModel() { Name = name });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });
@@ -168,7 +169,7 @@ namespace The100DaysOfCode.MVC.Controllers
         public async Task<IActionResult> AddNote(int id, string text)
         {
             var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Notes.Add(new NoteViewModel() { Text = text });
+            //dayOfCode.Notes.Add(new NoteViewModel() { Text = text });
             _context.Update(dayOfCode);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Day), new { id });

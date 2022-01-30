@@ -11,15 +11,15 @@ public class DayOfCodeViewModel
     [DataType(DataType.Date)]
     public DateTimeOffset Date { get; set; }
 
-    public DayOfCodeViewModel() { }
+    // public DayOfCodeViewModel() { }
 
-    public DayOfCodeViewModel(DayOfCode dayOfCode)
-    {
-        Id = dayOfCode.Id;
-        Title = dayOfCode.Title;
-        Goals = dayOfCode.Goals.Select<Goal,GoalViewModel>(x=> GoalViewModel(x));
-        Notes = dayOfCode.Notes.Select<Note,NoteViewModel>(x=> NoteViewModel(x));
-        Date = DateTimeOffset.FromUnixTimeSeconds(dayOfCode.UtcTimestamp);
-    }
+    // public DayOfCodeViewModel(DayOfCode dayOfCode)
+    // {
+    //     Id = dayOfCode.Id;
+    //     Title = dayOfCode.Title;
+    //     Goals = dayOfCode.Goals.Select<Goal,GoalViewModel>(x=> GoalViewModel(x));
+    //     Notes = dayOfCode.Notes.Select<Note,NoteViewModel>(x=> NoteViewModel(x));
+    //     Date = DateTimeOffset.FromUnixTimeSeconds(dayOfCode.UtcTimestamp);
+    // }
 
 }

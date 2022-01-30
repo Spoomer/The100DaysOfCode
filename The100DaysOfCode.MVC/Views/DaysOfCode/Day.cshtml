@@ -1,4 +1,4 @@
-@model The100DaysOfCode.MVC.Models.DayOfCode
+@model The100DaysOfCode.MVC.Models.DayOfCodeViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -25,7 +25,7 @@
     </dl>
     <b>@Html.DisplayNameFor(model => model.Goals)</b>
     <ul class="list-group">
-        @foreach (var goal in Model?.Goals ?? new List<Goal>())
+        @foreach (var goal in Model?.Goals ?? new List<GoalViewModel>())
         {
             <li class="list-group-item d-flex justify-content-between">
                 <div class="input-group">
@@ -71,7 +71,7 @@
     <p>
         <b>@Html.DisplayNameFor(model => model.Notes)</b>
     <ul class="list-group">
-            @foreach (var note in Model?.Notes ?? new List<Note>())
+            @foreach (var note in Model?.Notes ?? new List<NoteViewModel>())
             {
             <li class="list-group-item d-flex justify-content-between">
                 <textarea class="form-control-plaintext" rows="@(note.Text.Where(x=>x == '\n').Count()+1)" type="text" id=@("textareaNote_"+note.Id)

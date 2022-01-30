@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using The100DaysOfCode.MVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,9 @@ else
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAutoMapper(typeof(AutoMapperProfileV1));
+builder.Services.AddScoped<IDbAccess,EFDbAccess>();
+builder.Services.AddScoped<DayOfCodeService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
