@@ -62,8 +62,7 @@ namespace The100DaysOfCode.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dayOfCode);
-                await _context.SaveChangesAsync();
+                await _dayOfCodeService.CreateDayOfCode(dayOfCode);
                 return RedirectToAction(nameof(Index));
             }
             return View(dayOfCode);

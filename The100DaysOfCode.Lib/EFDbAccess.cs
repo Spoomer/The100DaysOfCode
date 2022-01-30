@@ -9,37 +9,38 @@ public class EFDbAccess : IDbAccess
     {
         _context = context;
     }
-    public T Create<T>(T obj) where T : IDbObject
+    public void Create<T>(T obj) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public Task<T> CreateAsync<T>(T obj) where T : IDbObject
+    public async Task CreateAsync<T>(T obj) where T : class, IDbObject
+    {
+        await _context.Set<T>().AddAsync(obj);
+        await _context.SaveChangesAsync();
+    }
+
+    public void Delete<T>(T obj) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public T Delete<T>(T obj) where T : IDbObject
+    public Task DeleteAsync<T>(T obj) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public Task<T> DeleteAsync<T>(T obj) where T : IDbObject
+    public T Get<T>(string fieldname, string fieldvalue) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public T Get<T>(string fieldname, string fieldvalue) where T : IDbObject
+    public T GetAsync<T>(string fieldname, string fieldvalue) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public T GetAsync<T>(string fieldname, string fieldvalue) where T : IDbObject
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<T> GetList<T>() where T : IDbObject
+    public IEnumerable<T> GetList<T>() where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
@@ -49,22 +50,22 @@ public class EFDbAccess : IDbAccess
         return await _context.Set<T>().ToListAsync();
     }
 
-    public T GetWithId<T>(int id) where T : IDbObject
+    public T GetWithId<T>(int id) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public Task<T> GetWithIdAsync<T>(int id) where T : IDbObject
+    public Task<T> GetWithIdAsync<T>(int id) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public T Replace<T>(T obj) where T : IDbObject
+    public bool Replace<T>(T obj) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public Task<T> ReplaceAsync<T>(T obj) where T : IDbObject
+    public Task<bool> ReplaceAsync<T>(T obj) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }

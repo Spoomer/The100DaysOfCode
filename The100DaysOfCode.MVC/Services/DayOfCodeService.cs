@@ -16,4 +16,10 @@ public class DayOfCodeService
         var viewmodel = _mapper.Map<IEnumerable<DayOfCode>,IEnumerable<DayOfCodeViewModel>>(daysOfCode);
         return viewmodel;
     }
+
+    public async Task CreateDayOfCode(DayOfCodeViewModel dayOfCodeViewModel)
+    {
+        var dayOfCode = _mapper.Map<DayOfCodeViewModel,DayOfCode>(dayOfCodeViewModel);
+        await _dbAccess.CreateAsync(dayOfCode);
+    }
 }
