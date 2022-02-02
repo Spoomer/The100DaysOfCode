@@ -71,5 +71,5 @@
 - [x] experiment with queryparameters in a generic data access
 
 ## Day 11:
-- [ ] finished generic db access
+- [x] finished generic db access
 - [ ] try dapper as alternative to EF Core
