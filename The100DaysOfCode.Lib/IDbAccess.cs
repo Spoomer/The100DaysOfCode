@@ -21,8 +21,8 @@ public interface IDbAccess
     Task CreateAsync<T> (T obj) where T : class, IDbObject;
     bool Replace<T> (T obj) where T : class, IDbObject;
     Task<bool> ReplaceAsync<T> (T obj) where T : class, IDbObject;
-    void Delete<T> (T obj) where T : class, IDbObject;
-    Task DeleteAsync<T> (T obj) where T : class, IDbObject;
+    void Delete<T> (int id) where T : class, IDbObject;
+    Task DeleteAsync<T> (int id) where T : class, IDbObject;
     IQueryable GetQueryable<T>() where T : class, IDbObject;
 
 }

@@ -20,14 +20,18 @@ public class EFDbAccess : IDbAccess
         await _context.SaveChangesAsync();
     }
 
-    public void Delete<T>(T obj) where T : class, IDbObject
+    public void Delete<T>(int id) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        var obj = _context.Set<T>().Find(id);
+        if (obj is not null) _context.Set<T>().Remove(obj);
+        _context.SaveChanges();
     }
 
-    public Task DeleteAsync<T>(T obj) where T : class, IDbObject
+    public async Task DeleteAsync<T>(int id) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        var obj = await _context.Set<T>().FindAsync(id);
+        if (obj is not null) _context.Set<T>().Remove(obj);
+        await _context.SaveChangesAsync();
     }
 
     public T? Get<T>(string fieldname, string fieldvalue) where T : class, IDbObject
@@ -97,19 +101,5 @@ public class EFDbAccess : IDbAccess
     public IQueryable GetQueryable<T>() where T : class, IDbObject
     {
         return _context.Set<T>().AsQueryable<T>();
-    }
-    private async Task ResetId()
-    {
-        if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueSQLite)
-        {
-            await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
-            await _context.Database.ExecuteSqlRawAsync("delete from sqlite_sequence where name='DayOfCode';");
-        }
-        else if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueMssql)
-        {
-            await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
-            await _context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('DayOfCode', RESEED, 0)");
-        }
-        _context.SaveChanges();
     }
 }
