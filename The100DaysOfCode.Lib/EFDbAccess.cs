@@ -30,43 +30,86 @@ public class EFDbAccess : IDbAccess
         throw new NotImplementedException();
     }
 
-    public T Get<T>(string fieldname, string fieldvalue) where T : class, IDbObject
+    public T? Get<T>(string fieldname, string fieldvalue) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public T GetAsync<T>(string fieldname, string fieldvalue) where T : class, IDbObject
+    public Task<T?> GetAsync<T>(string fieldname, string fieldvalue) where T : class, IDbObject
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<T> GetList<T>() where T : class, IDbObject
+    public IEnumerable<T> GetManyAsEnumerable<T>() where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        return _context.Set<T>().AsEnumerable<T>();
     }
 
-    public async Task<IEnumerable<T>> GetListAsync<T>() where T : class, IDbObject
+    public IAsyncEnumerable<T> GetManyAsAsyncEnumerable<T>() where T : class, IDbObject
+    {
+        return _context.Set<T>().AsAsyncEnumerable();
+    }
+
+    public IList<T> GetManyAsList<T>() where T : class, IDbObject
+    {
+        return _context.Set<T>().ToList();
+    }
+    public async Task<IList<T>> GetManyAsListAsync<T>() where T : class, IDbObject
     {
         return await _context.Set<T>().ToListAsync();
     }
-
-    public T GetWithId<T>(int id) where T : class, IDbObject
+    public T? GetWithId<T>(int id) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        return _context.Set<T>().Find(id);
     }
 
-    public Task<T> GetWithIdAsync<T>(int id) where T : class, IDbObject
+    public async Task<T?> GetWithIdAsync<T>(int id) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        return await _context.Set<T>().FindAsync(id);
     }
 
     public bool Replace<T>(T obj) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        _context.Set<T>().Update(obj);
+        int amount = _context.SaveChanges();
+        if (amount < 1) return false;
+        return true;
     }
 
-    public Task<bool> ReplaceAsync<T>(T obj) where T : class, IDbObject
+    public async Task<bool> ReplaceAsync<T>(T obj) where T : class, IDbObject
     {
-        throw new NotImplementedException();
+        _context.Set<T>().Update(obj);
+        int amount = await _context.SaveChangesAsync();
+        if (amount < 1) return false;
+        return true;
+    }
+
+    // public IEnumerable<T> GetList<T>(string fieldname, string fieldvalue) where T : class, IDbObject
+    // {
+    //     throw new NotImplementedException();
+    // }
+
+    // public async Task<IEnumerable<T>> GetListAsync<T>(string fieldname, string fieldvalue) where T : class, IDbObject
+    // {
+    //     throw new NotImplementedException();
+    // }
+
+    public IQueryable GetQueryable<T>() where T : class, IDbObject
+    {
+        return _context.Set<T>().AsQueryable<T>();
+    }
+    private async Task ResetId()
+    {
+        if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueSQLite)
+        {
+            await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
+            await _context.Database.ExecuteSqlRawAsync("delete from sqlite_sequence where name='DayOfCode';");
+        }
+        else if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueMssql)
+        {
+            await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
+            await _context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('DayOfCode', RESEED, 0)");
+        }
+        _context.SaveChanges();
     }
 }

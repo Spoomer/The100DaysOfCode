@@ -62,5 +62,14 @@
 - duration: ~ 3 hours
 
 ## Day 8:
-- [ ] create lib project and move data access
+- [x] watched youtube videos about coding
+
+## Day 9:
+- [x] create lib project and move data access
+
+## Day 10:
+- [x] experiment with queryparameters in a generic data access
+
+## Day 11:
+- [ ] finished generic db access
 - [ ] try dapper as alternative to EF Core
