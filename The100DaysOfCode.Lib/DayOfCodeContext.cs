@@ -20,6 +20,6 @@ public class DayOfCodeContext : DbContext
         modelBuilder.Entity<Goal>().ToTable("Goal");
         modelBuilder.Entity<Note>().ToTable("Note");
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    => options.UseSqlite("Data Source=DaysOfCode.db");
+    // protected override void OnConfiguring(DbContextOptionsBuilder options)
+    // => options.UseSqlite("Data Source=DaysOfCode.db");
 }
