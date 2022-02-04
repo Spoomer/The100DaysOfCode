@@ -9,10 +9,10 @@ public class DayOfCodeViewModel
     public ICollection<GoalViewModel> Goals { get; set; } = new List<GoalViewModel>();
     public ICollection<NoteViewModel> Notes { get; set; } = new List<NoteViewModel>();
     [DataType(DataType.Date)]
-    public DateTimeOffset Date { get; set; }
+    public DateTime Date { get; set; }
 
     public long GetUtcTimestamp()
     {
-        return Date.ToUniversalTime().ToUnixTimeSeconds();
+        return new DateTimeOffset(Date,TimeSpan.FromHours(0)).ToUnixTimeSeconds();
     }
 }
