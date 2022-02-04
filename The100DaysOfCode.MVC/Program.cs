@@ -4,16 +4,9 @@ using The100DaysOfCode.MVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<DayOfCodeContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("DayOfCodeContext")));
-}
-else
-{
-    builder.Services.AddDbContext<DayOfCodeContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionDayOfCodeContext")));
-}
+
+builder.Services.AddDbContext<DayOfCodeContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DayOfCodeContext")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
