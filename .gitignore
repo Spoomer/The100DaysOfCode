@@ -453,6 +453,11 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-*.db
-*.db-wal
-*.db-shm
+
+Dokumentation/local-release/
+The100DaysOfCode.Lib/DaysOfCode.db
+The100DaysOfCode.Lib/DaysOfCode.db-shm
+The100DaysOfCode.Lib/DaysOfCode.db-wal
+The100DaysOfCode.MVC/DaysOfCode.db
+The100DaysOfCode.MVC/DaysOfCode.db-shm
+The100DaysOfCode.MVC/DaysOfCode.db-wal
