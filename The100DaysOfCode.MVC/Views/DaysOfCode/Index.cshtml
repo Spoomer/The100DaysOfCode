@@ -1,4 +1,4 @@
-@model IEnumerable<The100DaysOfCode.MVC.Models.DayOfCode>
+@model IEnumerable<The100DaysOfCode.MVC.Models.DayOfCodeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model ?? new List<DayOfCode>()) {
+@foreach (var item in Model ?? new List<DayOfCodeViewModel>()) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)

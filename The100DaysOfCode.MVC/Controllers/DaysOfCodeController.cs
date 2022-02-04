@@ -12,19 +12,20 @@ namespace The100DaysOfCode.MVC.Controllers
 {
     public class DaysOfCodeController : Controller
     {
-        private readonly DayOfCodeContext _context;
+        //private readonly DayOfCodeContext _context;
         private readonly IConfiguration _config;
+        private readonly DayOfCodeService _dayOfCodeService;
 
-        public DaysOfCodeController(DayOfCodeContext context, IConfiguration config)
+        public DaysOfCodeController(DayOfCodeService dayOfCodeService, IConfiguration config)
         {
-            _context = context;
+            _dayOfCodeService = dayOfCodeService;
             _config = config;
         }
 
         // GET: DaysOfCode
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DaysOfCode.ToListAsync());
+            return View(await _dayOfCodeService.GetDayOfCodeViewModelsAsync());
         }
 
         // GET: DaysOfCode/Day/5
@@ -34,15 +35,11 @@ namespace The100DaysOfCode.MVC.Controllers
             {
                 return NotFound();
             }
-
-            var dayOfCode = await _context.DaysOfCode
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dayOfCode = await _dayOfCodeService.GetDayOfCodeViewModelAsync((int)id);
             if (dayOfCode == null)
             {
                 return NotFound();
             }
-            await _context.Entry(dayOfCode).Collection(x => x.Goals).LoadAsync();
-            await _context.Entry(dayOfCode).Collection(x => x.Notes).LoadAsync();
             return View(dayOfCode);
         }
 
@@ -61,8 +58,7 @@ namespace The100DaysOfCode.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dayOfCode);
-                await _context.SaveChangesAsync();
+                await _dayOfCodeService.CreateDayOfCode(dayOfCode);
                 return RedirectToAction(nameof(Index));
             }
             return View(dayOfCode);
@@ -76,7 +72,7 @@ namespace The100DaysOfCode.MVC.Controllers
                 return NotFound();
             }
 
-            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
+            var dayOfCode = await _dayOfCodeService.GetDayOfCodeViewModelAsync((int)id);
             if (dayOfCode == null)
             {
                 return NotFound();
@@ -98,22 +94,13 @@ namespace The100DaysOfCode.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+
+                bool success = await _dayOfCodeService.EditDayOfCodeAsync(dayOfCode);
+                if (success == false)
                 {
-                    _context.Update(dayOfCode);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DayOfCodeExists(dayOfCode.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(dayOfCode);
@@ -127,8 +114,7 @@ namespace The100DaysOfCode.MVC.Controllers
                 return NotFound();
             }
 
-            var dayOfCode = await _context.DaysOfCode
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var dayOfCode = await _dayOfCodeService.GetDayOfCodeViewModelAsync((int)id);
             if (dayOfCode == null)
             {
                 return NotFound();
@@ -142,14 +128,7 @@ namespace The100DaysOfCode.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            _context.DaysOfCode.Remove(dayOfCode);
-            await _context.SaveChangesAsync();
-            var daysOfCode = await _context.DaysOfCode.ToArrayAsync();
-            if (daysOfCode.Length == 0)
-            {
-                await ResetId();
-            }
+            await _dayOfCodeService.DeleteDayOfCodeAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -157,35 +136,22 @@ namespace The100DaysOfCode.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddGoal(int id, string name)
         {
-            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Goals.Add(new GoalViewModel() { Name = name });
-            _context.Update(dayOfCode);
-            await _context.SaveChangesAsync();
+            await _dayOfCodeService.AddGoalToDayOfCodeAsync(id, name);
             return RedirectToAction(nameof(Day), new { id });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNote(int id, string text)
         {
-            var dayOfCode = await _context.DaysOfCode.FindAsync(id);
-            dayOfCode.Notes.Add(new NoteViewModel() { Text = text });
-            _context.Update(dayOfCode);
-            await _context.SaveChangesAsync();
+            await _dayOfCodeService.AddNoteToDayOfCodeAsync(id, text);
             return RedirectToAction(nameof(Day), new { id });
         }
         [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckGoal([FromForm] int id, [FromForm] bool isChecked)
         {
-            var goal = await _context.Goals.FindAsync(id);
-            if (goal is not null)
-            {
-                goal.Check = isChecked;
-                _context.Update(goal);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            return NotFound();
+            await _dayOfCodeService.CheckGoalAsync(id, isChecked);
+            return Ok();
 
 
         }
@@ -194,30 +160,16 @@ namespace The100DaysOfCode.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateNote([FromForm] int id, [FromForm] string text)
         {
-            var note = await _context.Notes.FindAsync(id);
-            if (note is not null)
-            {
-                note.Text = text;
-                _context.Update(note);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            return NotFound();
+            await _dayOfCodeService.EditNoteAsync(id, text);
+            return Ok();
         }
         // Put /DaysOfCode/UpdateNote
         [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateGoal([FromForm] int id, [FromForm] string name)
         {
-            var goal = await _context.Goals.FindAsync(id);
-            if (goal is not null)
-            {
-                goal.Name = name;
-                _context.Update(goal);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            return NotFound();
+            await _dayOfCodeService.EditGoalAsync(id, name);
+            return Ok();
         }
         // Post: DayOfCode/DeleteGoal
         [HttpPost]
@@ -228,16 +180,9 @@ namespace The100DaysOfCode.MVC.Controllers
             {
                 return NotFound();
             }
-
-            var goal = await _context.Goals
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (goal == null)
-            {
-                return NotFound();
-            }
-            _context.Goals.Remove(goal);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Day), new {id=goal.DayOfCodeId});
+            GoalViewModel goal = await _dayOfCodeService.GetGoalViewModel((int)id);
+            await _dayOfCodeService.DeleteGoalAsync((int)id);
+            return RedirectToAction(nameof(Day), new { id = goal.DayOfCodeId });
         }
         // Post: DayOfCode/DeleteNote/
         [HttpPost]
@@ -248,35 +193,19 @@ namespace The100DaysOfCode.MVC.Controllers
             {
                 return NotFound();
             }
-
-            var note = await _context.Notes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (note == null)
-            {
-                return NotFound();
-            }
-            _context.Notes.Remove(note);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Day), new {id=note.DayOfCodeId});
+            NoteViewModel note = await _dayOfCodeService.GetNoteViewModel((int)id);
+            await _dayOfCodeService.DeleteNoteAsync((int)id);
+            return RedirectToAction(nameof(Day), new { id = note.DayOfCodeId });
         }
-        private bool DayOfCodeExists(int id)
+        private async Task<bool> DayOfCodeExists(int id)
         {
-            return _context.DaysOfCode.Any(e => e.Id == id);
+            if ((await _dayOfCodeService.GetDayOfCodeViewModelAsync(id)) is not null)
+            {
+                return true;
+            }
+            return false;
         }
 
-        private async Task ResetId()
-        {
-            if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueSQLite)
-            {
-                await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
-                await _context.Database.ExecuteSqlRawAsync("delete from sqlite_sequence where name='DayOfCode';");
-            }
-            else if (_config.GetValue<string>(AppSettings.DatabaseKey) == AppSettings.DatabaseValueMssql)
-            {
-                await _context.Database.ExecuteSqlRawAsync("delete from DayOfCode;");
-                await _context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('DayOfCode', RESEED, 0)");
-            }
-            _context.SaveChanges();
-        }
+
     }
 }

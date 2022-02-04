@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace The100DaysOfCode.Lib;
+namespace The100DaysOfCode.Lib.Models;
 
 public interface IDbObject
 {

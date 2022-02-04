@@ -6,6 +6,10 @@ public class DayOfCode : IDbObject
     public string Title { get; set; } = "";
     public ICollection<Goal> Goals { get; set; } = new List<Goal>();
     public ICollection<Note> Notes { get; set; } = new List<Note>();
-    public long Date { get; set; }
     public long UtcTimestamp { get; set; }
+
+    public DateTime GetDate()
+    {
+        return DateTimeOffset.FromUnixTimeSeconds(UtcTimestamp).UtcDateTime;
+    }
 }
