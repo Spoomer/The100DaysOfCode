@@ -101,7 +101,7 @@ namespace The100DaysOfCode.MVC.Controllers
                     return NotFound();
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Day), new { id });
             }
             return View(dayOfCode);
         }
