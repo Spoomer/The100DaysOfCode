@@ -44,9 +44,11 @@ namespace The100DaysOfCode.MVC.Controllers
         }
 
         // GET: DaysOfCode/CreateDay
-        public IActionResult CreateDay()
+        public async Task<IActionResult> CreateDay()
         {
-            return View();
+            int lastId = (await _dayOfCodeService.GetDayOfCodeViewModelsAsync()).Last().Id + 1;
+            DayOfCodeViewModel standard = new () { Date=DateTime.Today,Title=$"Day {lastId}"};
+            return View(standard);
         }
 
         // POST: DaysOfCode/CreateDay
